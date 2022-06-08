@@ -17,17 +17,17 @@ import com.example.demo.repository.UsuarioRepository;
 @Component
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired private UsuarioRepository repoUsu;
+    @Autowired private UsuarioRepository userRepo;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Usuario> userRes = repoUsu.findByEmail(email);
+    public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {
+        Optional<Usuario> userRes = userRepo.findById(nick);
         if(userRes.isEmpty())
-            throw new UsernameNotFoundException("Could not findUser with email = " + email);
+            throw new UsernameNotFoundException("Could not findUser with nick = " + nick);
         Usuario user = userRes.get();
         return new org.springframework.security.core.userdetails.User(
-                email,
+        		nick,
                 user.getContra(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+                Collections.singletonList(new SimpleGrantedAuthority("USER")));
     }
 }

@@ -1,22 +1,25 @@
 package com.example.demo.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "post")
 public class Post {
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Propiedades
 	
+	private static int contador = 1;
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	private int id;
 	
 	@Column(name = "contenido", nullable = false)
 	private String contenido;
@@ -24,18 +27,29 @@ public class Post {
 	@Column(name = "likes", nullable = false)
 	private Integer likes;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	private Usuario usuario;
+	
+	private static Date fecha = new Date();
+	
+	@Column(name = "fecha", nullable = false)
+	private String goodFecha;
+	
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Constructores
 	
-	public Post() {}
-	
-	public Post(String contenido, Usuario usuario) {
-		this.contenido = contenido;
-		this.usuario = usuario;
+	public Post() {
+		this.id = contador;
 		this.likes = 0;
+		this.goodFecha = getGoodFecha();
+		contador++;
+	}
+	
+	public Post(String contenido) {
+		this.id = contador;
+		this.contenido = contenido;
+		this.likes = 0;
+		this.goodFecha = getGoodFecha();
+		contador++;
 	}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -57,14 +71,6 @@ public class Post {
 		this.likes = likes;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -74,7 +80,7 @@ public class Post {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, usuario);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -86,7 +92,14 @@ public class Post {
 		if (getClass() != obj.getClass())
 			return false;
 		Post other = (Post) obj;
-		return Objects.equals(id, other.id) && Objects.equals(usuario, other.usuario);
+		return Objects.equals(id, other.id);
 	}
 	
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
+	// Metodos adicionales de la clase
+	
+	
+	public String getGoodFecha() {
+		return new SimpleDateFormat("dd-MM-yyyy").format(Post.fecha);
+	}
 }

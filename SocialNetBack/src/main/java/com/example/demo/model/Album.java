@@ -6,11 +6,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,8 +20,9 @@ public class Album {
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Propiedades
 	
+	private static int contador = 1;
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	@Column(name = "nombre", nullable = false)
@@ -35,17 +32,16 @@ public class Album {
 	@NotFound(action=NotFoundAction.IGNORE)
 	private List<Foto> fotos;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
-	private Usuario usuario;
-	
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Constructores
 	
 	/**
 	 * Constructor vacio
 	 */
-	public Album() {	
+	public Album() {
+		this.id = contador;
 		this.fotos = new ArrayList<>();	
+		contador++;
 	}
 	
 	/**
@@ -53,10 +49,11 @@ public class Album {
 	 * @param nombre
 	 * @param usuario
 	 */
-	public Album(String nombre, Usuario usuario) {
+	public Album(String nombre) {
+		this.id = contador;
 		this.nombre = nombre;
-		this.usuario = usuario;
 		this.fotos = new ArrayList<>();
+		contador++;
 	}
 	
 	/**
@@ -65,10 +62,11 @@ public class Album {
 	 * @param fotos
 	 * @param usuario
 	 */
-	public Album(String nombre, List<Foto> fotos, Usuario usuario) {
+	public Album(String nombre, List<Foto> fotos) {
+		this.id = contador;
 		this.nombre = nombre;
 		this.fotos = fotos;
-		this.usuario = usuario;
+		contador++;
 	}
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -94,20 +92,12 @@ public class Album {
 		this.fotos = fotos;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
 	//Metodos Override
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(nombre, usuario);
+		return Objects.hash(nombre);
 	}
 
 	@Override
@@ -119,7 +109,7 @@ public class Album {
 		if (getClass() != obj.getClass())
 			return false;
 		Album other = (Album) obj;
-		return Objects.equals(nombre, other.nombre) && Objects.equals(usuario, other.usuario);
+		return Objects.equals(nombre, other.nombre);
 	}
 
 }

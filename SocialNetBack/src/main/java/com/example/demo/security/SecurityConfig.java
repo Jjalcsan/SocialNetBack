@@ -20,7 +20,7 @@ import com.example.demo.repository.UsuarioRepository;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired private UsuarioRepository repoUsu;
+    @Autowired private UsuarioRepository userRepo;
     @Autowired private JWTFilter filter;
     @Autowired private MyUserDetailsService uds;
 
@@ -31,8 +31,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeHttpRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/login").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/albumes").hasRole("USER")
+                .antMatchers("/albumes/{idUsu}").hasRole("USER")
+                .antMatchers("/albumes/{idAlb}").hasRole("USER")
+                .antMatchers("/albumes/{idUsu}/{idAlb}").hasRole("USER")
+                .antMatchers("/fotos/{idAlb}").hasRole("USER")
+                .antMatchers("/fotos/{idAlb}/{idFot}").hasRole("USER")
+                .antMatchers("/grupos").hasRole("USER")
+                .antMatchers("/grupos/{idGrup}").hasRole("USER")
+                .antMatchers("/grupos/{idGrup}/{idUsu}").hasRole("USER")
+                .antMatchers("/grupos/{idUsu}").hasRole("USER")
+                .antMatchers("/posts").hasRole("USER")
+                .antMatchers("/posts/{idUsu}").hasRole("USER")
+                .antMatchers("/posts/{idUsu}/{idPost}").hasRole("USER")
+                .antMatchers("/usuarios/{idUsu}").hasRole("USER")
+                .antMatchers("/usuarios").hasRole("USER")
+                .antMatchers("/email").hasRole("USER")
+                .antMatchers("/nick").hasRole("USER")
+                
+                
                 .and()
                 .userDetailsService(uds)
                 .exceptionHandling()

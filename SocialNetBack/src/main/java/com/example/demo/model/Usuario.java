@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -45,16 +45,16 @@ public class Usuario {
 	@Column(name = "foto")
 	private String fotoPerfil;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Album> albumes;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.DETACH, orphanRemoval = true)
 	private List<Usuario> seguidores;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.DETACH, orphanRemoval = true)
 	private List<Usuario> seguidos;
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Post> posts;
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ public class Usuario {
 		this.albumes = new ArrayList<>();
 		this.seguidores = new ArrayList<>();
 		this.seguidos = new ArrayList<>();
-		this.posts = new ArrayList<>();		
+		//this.posts = new ArrayList<>();		
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class Usuario {
 		this.albumes = new ArrayList<>();
 		this.seguidores = new ArrayList<>();
 		this.seguidos = new ArrayList<>();
-		this.posts = new ArrayList<>();
+		//this.posts = new ArrayList<>();
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class Usuario {
 		this.albumes = new ArrayList<>();
 		this.seguidores = new ArrayList<>();
 		this.seguidos = new ArrayList<>();
-		this.posts = new ArrayList<>();
+		//this.posts = new ArrayList<>();
 	}
 	
 	/**
@@ -262,6 +262,14 @@ public class Usuario {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+	
+	public String getFotoPerfil() {
+		return fotoPerfil;
+	}
+
+	public void setFotoPerfil(String fotoPerfil) {
+		this.fotoPerfil = fotoPerfil;
 	}
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	

@@ -9,20 +9,20 @@ import lombok.ToString;
 @ToString
 public class LoginCredentials {
 
-    private String email;
-    private String password;
+    private String nick;
+    private String contra;
     
-	public String getEmail() {
-		return email;
+	public String getNick() {
+		return nick;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setNick(String nick) {
+		this.nick = nick;
 	}
-	public String getPassword() {
-		return password;
+	public String getContra() {
+		return contra;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setContra(String contra) {
+		this.contra = contra;
 	}
     
 }
